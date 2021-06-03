@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "cleanup": "rm -rf module/",
+    "cleanup": "rm -rf module",
+    "build": "babel -D module/src -d module/lib",
+    "instrument": "./bin/instrument.sh ./module/lib ./module/instrumented",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
