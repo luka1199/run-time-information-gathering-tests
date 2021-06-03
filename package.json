@@ -1,0 +1,29 @@
+{
+  "name": "run-time-information-gathering-tests",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "cleanup": "rm -rf module/",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/luka1199/run-time-information-gathering-tests.git"
+  },
+  "author": {
+    "name": "Luka Steinbach",
+    "email": "luka.steinbach@gmx.de"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/luka1199/run-time-information-gathering-tests/issues"
+  },
+  "homepage": "https://github.com/luka1199/run-time-information-gathering-tests#readme",
+  "dependencies": {
+    "@babel/cli": "^7.14.3",
+    "@babel/core": "^7.14.3",
+    "@babel/preset-env": "^7.14.4",
+    "jalangi2": "^0.2.6"
+  }
+}
