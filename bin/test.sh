@@ -60,4 +60,4 @@ node $JALANGI_PATH/src/js/commands/direct.js \
     --analysis $ROOT_PATH/analysis/callbacks/unaryPre.js \
     --analysis $ROOT_PATH/analysis/callbacks/conditional.js \
     --analysis $ROOT_PATH/analysis/callbacks/literal.js \
-    $TEST_FRAMEWORK_PATH $TEST_FRAMEWORK_TARGET > /tmp/output
+    $TEST_FRAMEWORK_PATH $TEST_FRAMEWORK_TARGET
