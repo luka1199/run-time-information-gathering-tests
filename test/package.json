@@ -1,0 +1,7 @@
+{
+    "scripts": {
+        "test": "npm run test:a && npm run test:b && echo ok",
+        "test:a": "mocha test1",
+        "test:b": "mocha test2"
+    }
+}
