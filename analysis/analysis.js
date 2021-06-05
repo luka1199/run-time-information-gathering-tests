@@ -7,24 +7,34 @@
 
 (function (sandbox) {
     function Analysis() {
-        this.addAnalysis = function(analysis) {
+        this.addAnalysis = function (analysis) {
             if (analysis.callbackName) {
                 this[analysis.callbackName] = analysis.callback;
             }
         };
 
-        this.endExecution = function() {
-            console.log("")
-            console.log(JSON.stringify(sandbox.runTimeInfo, null, 4));
+        this.endExecution = function () {
+            var fs = require('fs')
+            var output = JSON.stringify(sandbox.runTimeInfo, null, 4)
+
+            // Check if analysis json path is set
+            if (J$.initParams['jsonOutputPath']) {
+                console.log(`>> Saving analysis to ${J$.initParams['jsonOutputPath']}...`);
+                fs.writeFileSync(J$.initParams['jsonOutputPath'], output)
+                console.log('done!');
+            } else {
+                console.log("");
+                console.log(output);
+            }
         };
     }
 
     var thisAnalysis = new Analysis();
     Object.defineProperty(sandbox, 'analysis', {
-        get:function () {
+        get: function () {
             return thisAnalysis;
         },
-        set:function (a) {
+        set: function (a) {
             thisAnalysis.addAnalysis(a);
         }
     });

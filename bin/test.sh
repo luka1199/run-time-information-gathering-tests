@@ -7,6 +7,7 @@ TEST_FRAMEWORK_PATH=$1
 TEST_FRAMEWORK_TARGET=${@:2}
 
 node $JALANGI_PATH/src/js/commands/direct.js \
+    --initParam jsonOutputPath:$ROOT_PATH/module/output/output.json \
     --analysis $ROOT_PATH/utils/initialize.js \
     --analysis $ROOT_PATH/utils/sMemory/sMemory.js \
     --analysis $ROOT_PATH/utils/functions.js \
