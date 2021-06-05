@@ -9,5 +9,5 @@ npm install
 ## How to run
 
 ```bash
-./bin/run.sh <REPOSITORY URL>
+./bin/run.sh <REPOSITORY NAME> <REPOSITORY URL>
 ```
