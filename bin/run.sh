@@ -31,7 +31,7 @@ npm install
 cd $ROOT_PATH
 
 echo ""
-echo ">> Parsing test script..."
+echo ">> Generating test script..."
 node tools/testScript.js $ROOT_PATH/module/instrumented/package.json
 
 echo ""
