@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "cleanup": "rm -rf module",
-    "build": "babel -D module/src -d module/lib",
+    "build": "babel -D module/src -d module/lib || cp -r module/src/* module/lib",
     "instrument": "./bin/instrument.sh ./module/lib ./module/instrumented",
     "test": "mocha test"
   },
