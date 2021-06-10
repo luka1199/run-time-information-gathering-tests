@@ -17,7 +17,6 @@ const cleanupKeywords = ['jshint', 'eslint', 'gjslint', 'jslint', 'standard', 's
 const packageJsonPath = process.argv[2]
 
 getTestScript(packageJsonPath).then((script) => {
-    // console.log(script);
     script = cleanupScript(script)
     script = replaceFrameworks(script)
 
@@ -27,7 +26,6 @@ getTestScript(packageJsonPath).then((script) => {
 })
 
 function getTestFrameworkCommand(framework) {
-    console.log(framework);
     if (testFrameworks[framework] == null) {
         return `${testPath} null`
     }
