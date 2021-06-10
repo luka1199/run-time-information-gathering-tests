@@ -3,8 +3,9 @@
 SCRIPT_PATH="$( cd "$(dirname "$0")" ; pwd -P )"
 ROOT_PATH="$( cd "$(dirname "$0")" ; pwd -P )/.."
 MODULE_NAME=$1
-MODULE_URL=$2
-OUTPUT_PATH=$3
+MODULE_URL=$(npm view $MODULE_NAME repository.url)
+DEFAULT_OUTPUT_PATH=$ROOT_PATH/module/output/output.json
+OUTPUT_PATH="${2:-$DEFAULT_OUTPUT_PATH}"
 
 npm run cleanup
 mkdir -p $SCRIPT_PATH/../module/src/
