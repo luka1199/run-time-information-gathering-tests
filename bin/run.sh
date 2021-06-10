@@ -6,7 +6,9 @@ MODULE_NAME=$1
 MODULE_URL=$(npm view $MODULE_NAME repository.url)
 DEFAULT_OUTPUT_PATH=$ROOT_PATH/module/output/output.json
 OUTPUT_PATH="${2:-$DEFAULT_OUTPUT_PATH}"
+CURRENT_DIRECTORY=$(pwd)
 
+cd $ROOT_PATH
 npm run cleanup
 mkdir -p $SCRIPT_PATH/../module/src/
 mkdir -p $SCRIPT_PATH/../module/lib/
@@ -46,3 +48,5 @@ echo ""
 echo ">> Preparing analysis file..."
 node $ROOT_PATH/tools/prepareAnalysisJson.js $MODULE_NAME $OUTPUT_PATH
 echo "done!"
+
+cd $CURRENT_DIRECTORY
