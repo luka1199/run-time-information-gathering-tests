@@ -1,10 +1,22 @@
 #!/bin/bash
 
-SCRIPT_PATH="$( cd "$(dirname "$0")" ; pwd -P )"
-ROOT_PATH="$( cd "$(dirname "$0")" ; pwd -P )/.."
+SCRIPT_PATH="$(
+    cd "$(dirname "$0")"
+    pwd -P
+)"
+ROOT_PATH="$(
+    cd "$(dirname "$0")"
+    pwd -P
+)/.."
 JALANGI_PATH="$ROOT_PATH/node_modules/jalangi2"
 TEST_FRAMEWORK_PATH=$1
 TEST_FRAMEWORK_TARGET=${@:2}
+
+if [ $TEST_FRAMEWORK_PATH = "null" ]; then
+    JALANGI_ARGS="$TEST_FRAMEWORK_TARGET"
+else
+    JALANGI_ARGS="$TEST_FRAMEWORK_PATH $TEST_FRAMEWORK_TARGET"
+fi
 
 node $JALANGI_PATH/src/js/commands/direct.js \
     --initParam jsonOutputPath:$ROOT_PATH/module/output/output.json \
@@ -61,4 +73,4 @@ node $JALANGI_PATH/src/js/commands/direct.js \
     --analysis $ROOT_PATH/analysis/callbacks/unaryPre.js \
     --analysis $ROOT_PATH/analysis/callbacks/conditional.js \
     --analysis $ROOT_PATH/analysis/callbacks/literal.js \
-    $TEST_FRAMEWORK_PATH $TEST_FRAMEWORK_TARGET
+    $JALANGI_ARGS

@@ -16,4 +16,3 @@ var regex = /\"requiredModule\": \"\..*\"/i
 var newAnalysis = analysis.replace(regex, `\"requiredModule\": \"${moduleName}\"`)
 
 fs.writeFileSync(analysisPath, newAnalysis)
-console.log('done!');

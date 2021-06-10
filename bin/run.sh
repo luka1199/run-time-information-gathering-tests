@@ -43,3 +43,4 @@ cd $ROOT_PATH
 echo ""
 echo ">> Preparing analysis file..."
 node $ROOT_PATH/tools/prepareAnalysisJson.js $MODULE_NAME $ROOT_PATH/module/output/output.json
+echo "done!"
