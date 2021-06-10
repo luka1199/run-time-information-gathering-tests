@@ -42,6 +42,11 @@ echo ""
 echo ">> Running tests..."
 cd $ROOT_PATH/module/instrumented
 npm run __test__
+mkdir -p $(dirname $OUTPUT_PATH)
+cp $ROOT_PATH/module/output/output.json $(dirname $OUTPUT_PATH)
+if [ $(dirname $OUTPUT_PATH)/output.json != $OUTPUT_PATH ]; then
+    mv $(dirname $OUTPUT_PATH)/output.json $OUTPUT_PATH
+fi
 cd $ROOT_PATH
 
 echo ""
