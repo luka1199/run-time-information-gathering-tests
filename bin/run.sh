@@ -4,6 +4,7 @@ SCRIPT_PATH="$( cd "$(dirname "$0")" ; pwd -P )"
 ROOT_PATH="$( cd "$(dirname "$0")" ; pwd -P )/.."
 MODULE_NAME=$1
 MODULE_URL=$2
+OUTPUT_PATH=$3
 
 npm run cleanup
 mkdir -p $SCRIPT_PATH/../module/src/
@@ -42,5 +43,5 @@ cd $ROOT_PATH
 
 echo ""
 echo ">> Preparing analysis file..."
-node $ROOT_PATH/tools/prepareAnalysisJson.js $MODULE_NAME $ROOT_PATH/module/output/output.json
+node $ROOT_PATH/tools/prepareAnalysisJson.js $MODULE_NAME $OUTPUT_PATH
 echo "done!"
