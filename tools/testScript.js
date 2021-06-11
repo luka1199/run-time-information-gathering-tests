@@ -44,7 +44,7 @@ function loadPackageJson(path) {
 function replaceFrameworks(script) {
     var splitScript = script.split(" ");
     var transformedScript = splitScript.map((x) => {
-        var newX
+        var newX = x
         Object.keys(testFrameworks).forEach(keyword => {
             if (x.includes(keyword)) {
                 newX = getTestFrameworkCommand(keyword)

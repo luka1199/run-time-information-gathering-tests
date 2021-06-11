@@ -43,10 +43,12 @@ echo ">> Running tests..."
 cd $ROOT_PATH/module/instrumented
 npm run __test__
 
-echo ""
-echo ">> Copying analysis to $OUTPUT_PATH"
-mkdir -p $(dirname $OUTPUT_PATH)
-cp $ROOT_PATH/module/output/output.json $(dirname $OUTPUT_PATH)
+if [ $OUTPUT_PATH != $DEFAULT_OUTPUT_PATH ]; then
+    echo ""
+    echo ">> Copying analysis to $OUTPUT_PATH"
+    mkdir -p $(dirname $OUTPUT_PATH)
+    cp $ROOT_PATH/module/output/output.json $(dirname $OUTPUT_PATH)
+fi
 if [ $(dirname $OUTPUT_PATH)/output.json != $OUTPUT_PATH ]; then
     mv $(dirname $OUTPUT_PATH)/output.json $OUTPUT_PATH
 fi
