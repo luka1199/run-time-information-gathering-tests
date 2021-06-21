@@ -3,9 +3,10 @@
 SCRIPT_PATH="$( cd "$(dirname "$0")" ; pwd -P )"
 ROOT_PATH="$( cd "$(dirname "$0")" ; pwd -P )/.."
 MODULE_NAME=$1
-MODULE_URL=$(node $ROOT_PATH/tools/transformRepositoryUrl.js $(npm view $MODULE_NAME repository.url))
+# MODULE_URL=$(node $ROOT_PATH/tools/transformRepositoryUrl.js $(npm view $MODULE_NAME repository.url))
+MODULE_URL=$2
 DEFAULT_OUTPUT_PATH=$ROOT_PATH/module/output/output.json
-OUTPUT_PATH="${2:-$DEFAULT_OUTPUT_PATH}"
+OUTPUT_PATH="${3:-$DEFAULT_OUTPUT_PATH}"
 CURRENT_DIRECTORY=$(pwd)
 
 cd $ROOT_PATH
