@@ -1,37 +1,21 @@
 #!/bin/bash
 
-SCRIPT_PATH="$(
-    cd "$(dirname "$0")"
-    pwd -P
-)"
-ROOT_PATH="$(
-    cd "$(dirname "$0")"
-    pwd -P
-)/.."
+TARGET=$1
+SCRIPT_PATH="$( cd "$(dirname "$0")" ; pwd -P )"
+ROOT_PATH=$SCRIPT_PATH/..
+
 JALANGI_PATH="$ROOT_PATH/node_modules/jalangi2"
-TEST_FRAMEWORK_PATH=$1
-TEST_FRAMEWORK_TARGET=${@:2}
 
-if [ $TEST_FRAMEWORK_PATH = "null" ]; then
-    JALANGI_ARGS="$TEST_FRAMEWORK_TARGET"
-else
-    JALANGI_ARGS="$TEST_FRAMEWORK_PATH $TEST_FRAMEWORK_TARGET"
-fi
-
-node $JALANGI_PATH/src/js/commands/direct.js \
-    --initParam jsonOutputPath:$ROOT_PATH/module/output/output.json \
+node $JALANGI_PATH/src/js/commands/instrument.js --inlineIID --inlineSource \
+	-i --inlineJalangi \
     --analysis $ROOT_PATH/analysis/utils/initialize.js \
-    --analysis $ROOT_PATH/analysis/utils/sMemory/sMemory.js \
     --analysis $ROOT_PATH/analysis/utils/functions.js \
     \
     \
+    --analysis $ROOT_PATH/analysis/utils/metadataStore.js \
     --analysis $ROOT_PATH/analysis/utils/functionsExecutionStack.js \
-    --analysis $ROOT_PATH/analysis/utils/sMemoryInterface.js \
-    --analysis $ROOT_PATH/analysis/utils/objectSerializer.js \
-    --analysis $ROOT_PATH/analysis/utils/interactionSerializer.js \
     --analysis $ROOT_PATH/analysis/utils/interactionContainerFinder.js \
     --analysis $ROOT_PATH/analysis/utils/objectTraceIdMap.js \
-    --analysis $ROOT_PATH/analysis/utils/recursiveInteractionsHandler.js \
     --analysis $ROOT_PATH/analysis/utils/argumentWrapperObjectBuilder.js \
     --analysis $ROOT_PATH/analysis/utils/functionIdHandler.js \
     --analysis $ROOT_PATH/analysis/utils/argumentProxyBuilder.js \
@@ -54,10 +38,6 @@ node $JALANGI_PATH/src/js/commands/direct.js \
     --analysis $ROOT_PATH/analysis/utils/interactions/putFieldInteraction.js \
     --analysis $ROOT_PATH/analysis/utils/interactions/usedAsArgumentInteraction.js \
     --analysis $ROOT_PATH/analysis/utils/interactions/convertedToInteraction.js \
-    --analysis $ROOT_PATH/analysis/utils/interactions/operatorInteraction.js \
-    \
-    \
-    --analysis $ROOT_PATH/analysis/utils/operators/operatorInteractionBuilder.js \
     \
     \
     --analysis $ROOT_PATH/analysis/analysis.js \
@@ -73,4 +53,5 @@ node $JALANGI_PATH/src/js/commands/direct.js \
     --analysis $ROOT_PATH/analysis/callbacks/unaryPre.js \
     --analysis $ROOT_PATH/analysis/callbacks/conditional.js \
     --analysis $ROOT_PATH/analysis/callbacks/literal.js \
-    $JALANGI_ARGS
+	--outputDir output_browser \
+	$TARGET
