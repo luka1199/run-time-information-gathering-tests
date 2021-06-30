@@ -22,7 +22,7 @@ getTestScript(packageJsonPath).then((script) => {
 
     var packageJson = loadPackageJson(packageJsonPath)
     packageJson['scripts']['__test__'] = script
-    fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson));
+    fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
 })
 
 function getTestFrameworkCommand(framework) {

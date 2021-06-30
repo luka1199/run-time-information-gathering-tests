@@ -21,6 +21,8 @@ echo ""
 echo ">> Cloning module..."
 git clone $MODULE_URL module/src
 
+jsFiles=$(find $ROOT_PATH/module/src/ -name '*.js')
+
 echo ""
 echo ">> Compiling module with Babel..."
 npm run build
@@ -28,6 +30,16 @@ npm run build
 echo ""
 echo ">> Instrumenting module with Jalangi..."
 npm run instrument
+
+echo ""
+echo ">> Injecting Jalangi"
+for jsFile in $(find $ROOT_PATH/module/src/ -name '*.js')
+do
+    instrumentedJsFile="${jsFile/"$ROOT_PATH/module/src/"/"$ROOT_PATH/module/instrumented/"}"
+    requirePath="$ROOT_PATH/jalangi/jalangiPlain"
+    echo "$jsFile -> $instrumentedJsFile"
+    sed -i "1s@^@require('$ROOT_PATH')\n@" $instrumentedJsFile
+done
 
 echo ""
 echo ">> Installing module dependencies..."
