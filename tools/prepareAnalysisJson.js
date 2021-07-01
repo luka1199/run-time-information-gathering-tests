@@ -11,6 +11,11 @@ if (!process.argv[3]) {
 
 const moduleName = process.argv[2]
 const analysisPath = process.argv[3]
+
+if (!fs.existsSync(analysisPath)) {
+    console.log("No analysis file found.");
+    process.exit()
+}
 var analysis = fs.readFileSync(analysisPath).toString()
 var regex = /\"requiredModule\": \"\..*\"/i
 var newAnalysis = analysis.replace(regex, `\"requiredModule\": \"${moduleName}\"`)
