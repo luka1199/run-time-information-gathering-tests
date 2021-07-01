@@ -8,7 +8,7 @@ ROOT_PATH="$(
     cd "$(dirname "$0")"
     pwd -P
 )/.."
-JALANGI_PATH="$ROOT_PATH/node_modules/jalangi2"
+JALANGI_PATH="$ROOT_PATH/jalangi2"
 TEST_FRAMEWORK_PATH=$1
 TEST_FRAMEWORK_TARGET=${@:2}
 

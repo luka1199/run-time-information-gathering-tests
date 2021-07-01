@@ -2,7 +2,7 @@
 
 SCRIPT_PATH="$( cd "$(dirname "$0")" ; pwd -P )"
 ROOT_PATH="$( cd "$(dirname "$0")" ; pwd -P )/.."
-JALANGI_PATH="$ROOT_PATH/node_modules/jalangi2"
+JALANGI_PATH="$ROOT_PATH/jalangi2"
 TARGET_DIR=$1
 OUTPUT_DIR=$2
 

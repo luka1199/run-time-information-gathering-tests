@@ -32,29 +32,29 @@ echo ">> Instrumenting module with Jalangi..."
 npm run instrument
 
 echo ""
-echo ">> Injecting Jalangi"
-for jsFile in $(find $ROOT_PATH/module/src/ -name '*.js')
-do
-    instrumentedJsFile="${jsFile/"$ROOT_PATH/module/src/"/"$ROOT_PATH/module/instrumented/"}"
-    requirePath="$ROOT_PATH/jalangi/jalangiPlain"
-    echo "$jsFile -> $instrumentedJsFile"
-    sed -i "1s@^@require('$ROOT_PATH')\n@" $instrumentedJsFile
-done
-
-echo ""
 echo ">> Installing module dependencies..."
 cd $ROOT_PATH/module/instrumented
 npm install
 cd $ROOT_PATH
 
 echo ""
-echo ">> Generating test script..."
-node tools/testScript.js $ROOT_PATH/module/instrumented/package.json
+echo ">> Injecting Jalangi"
+cp -r "$ROOT_PATH/jalangiExtracted" "$ROOT_PATH/module/instrumented/node_modules"
+for jsFile in $jsFiles
+do
+    instrumentedJsFile="${jsFile/"$ROOT_PATH/module/src/"/"$ROOT_PATH/module/instrumented/"}"
+    requirePath="jalangiExtracted/jalangi"
+    sed -i "1s@^@require('$requirePath')\n@" $instrumentedJsFile
+done
+
+# echo ""
+# echo ">> Generating test script..."
+# node tools/testScript.js $ROOT_PATH/module/instrumented/package.json
 
 echo ""
 echo ">> Running tests..."
 cd $ROOT_PATH/module/instrumented
-npm run __test__
+npm run test
 
 if [ $OUTPUT_PATH != $DEFAULT_OUTPUT_PATH ]; then
     echo ""

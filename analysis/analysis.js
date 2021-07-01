@@ -7,6 +7,7 @@
 
 (function (sandbox) {
     function Analysis() {
+
         this.addAnalysis = function (analysis) {
             if (analysis.callbackName) {
                 this[analysis.callbackName] = analysis.callback;

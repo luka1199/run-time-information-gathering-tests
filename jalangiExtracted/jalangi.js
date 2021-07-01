@@ -10785,7 +10785,7 @@ if (typeof J$ === 'undefined') {
 })(J$);
 
 
-J$.initParams = {};
+J$.initParams = {"jsonOutputPath":"/h/Users/Luka99/Dokumente/Projekte/Bachelorarbeit/run-time-information-gathering-tests/bin/../module/output/output.json"};
 /* global J$ */
 
 "use strict";
@@ -12574,6 +12574,7 @@ J$.initParams = {};
 
 (function (sandbox) {
     function Analysis() {
+
         this.addAnalysis = function (analysis) {
             if (analysis.callbackName) {
                 this[analysis.callbackName] = analysis.callback;
