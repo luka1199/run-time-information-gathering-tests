@@ -10785,14 +10785,27 @@ if (typeof J$ === 'undefined') {
 })(J$);
 
 
-J$.initParams = {"jsonOutputPath":"/h/Users/Luka99/Dokumente/Projekte/Bachelorarbeit/run-time-information-gathering-tests/bin/../module/output/output.json"};
+J$.initParams = {"jsonOutputPath":"/home/luka99/Dokumente/Projekte/Bachelorarbeit/run-time-information-gathering-tests/bin/../module/output/output.json"};
 /* global J$ */
 
 "use strict";
 
 (function (sandbox) {
+	var fs = require('fs')
 	sandbox.runTimeInfo = {};
 
+	process.on('exit', (code) => {
+		var output = JSON.stringify(sandbox.runTimeInfo, null, 4)
+		// Check if analysis json path is set
+		if (J$.initParams['jsonOutputPath']) {
+			console.log(`>> Saving analysis to ${J$.initParams['jsonOutputPath']}...`);
+			fs.writeFileSync(J$.initParams['jsonOutputPath'], output)
+			console.log('done!');
+		} else {
+			console.log("");
+			console.log(output);
+		}
+	})
 }(J$));
 
 /**
@@ -12574,7 +12587,6 @@ J$.initParams = {"jsonOutputPath":"/h/Users/Luka99/Dokumente/Projekte/Bachelorar
 
 (function (sandbox) {
     function Analysis() {
-
         this.addAnalysis = function (analysis) {
             if (analysis.callbackName) {
                 this[analysis.callbackName] = analysis.callback;
@@ -12582,18 +12594,7 @@ J$.initParams = {"jsonOutputPath":"/h/Users/Luka99/Dokumente/Projekte/Bachelorar
         };
 
         this.endExecution = function () {
-            var fs = require('fs')
-            var output = JSON.stringify(sandbox.runTimeInfo, null, 4)
-
-            // Check if analysis json path is set
-            if (J$.initParams['jsonOutputPath']) {
-                console.log(`>> Saving analysis to ${J$.initParams['jsonOutputPath']}...`);
-                fs.writeFileSync(J$.initParams['jsonOutputPath'], output)
-                console.log('done!');
-            } else {
-                console.log("");
-                console.log(output);
-            }
+            
         };
     }
 
