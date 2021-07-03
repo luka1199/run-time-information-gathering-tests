@@ -1,11 +1,13 @@
 #!/bin/bash
+
+SCRIPT_PATH="$( cd "$(dirname "$0")" ; pwd -P )"
+ROOT_PATH="$( cd "$(dirname "$0")" ; pwd -P )/.."
 CURRENT_FOLDER=$(pwd)
 MODULES_FOLDER="$(pwd)/$1"
 LOG_FILE="$MODULES_FOLDER/../install.log"
-rm -f $LOG_FILE
 
 cd "$MODULES_FOLDER"
-for MODULE in $(cat "../modulesInstall.csv"); do
+for MODULE in $(node $ROOT_PATH/tools/getModulesInstall.js ../modulesInstall.csv ../install.log); do
     echo ""
     echo ">> Installing dependencies of $MODULE"
 
