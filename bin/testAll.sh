@@ -7,24 +7,33 @@ rm -f $LOG_FILE
 rm -f $ERROR_LOG_FILE
 
 cd "$MODULES_FOLDER"
-for MODULE in $(cat "../modulesWithTestScript.csv"); do
-    echo ""
-    echo ">> Testing $MODULE"
+N=4
+for MODULE in $(cat "../modulesTest.csv"); do
+    (
+        echo ""
+        echo ">> Testing $MODULE"
 
-    cd "$MODULES_FOLDER/$MODULE/src"
-    timeout 60 npm run test
-    if [[ $? -eq 0 ]]; then
-        LOG_OUTPUT="OK"
-    else
-        if [ $ERROR_CODE -eq 124 ]
-        then
-            LOG_OUTPUT="TIMEOUT"
+        cd "$MODULES_FOLDER/$MODULE/src"
+        timeout 100 npm run test
+        CODE=$?
+        if [[ $CODE -eq 0 ]]; then
+            LOG_OUTPUT="OK"
         else
-            LOG_OUTPUT="NOK"
+            if [ $CODE -eq 124 ]
+            then
+                LOG_OUTPUT="TIMEOUT"
+            else
+                LOG_OUTPUT="NOK"
+            fi
         fi
-    fi
-    cd "$MODULES_FOLDER"
+        cd "$MODULES_FOLDER"
 
-    echo "$MODULE - $LOG_OUTPUT" >>$LOG_FILE
+        echo "$MODULE - $LOG_OUTPUT" >>$LOG_FILE
+    ) &
+
+    # allow to execute up to $N jobs in parallel
+    if [[ $(jobs -r -p | wc -l) -ge $N ]]; then
+        wait -n
+    fi
 done
 cd "$CURRENT_FOLDER"

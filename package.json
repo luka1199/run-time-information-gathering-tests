@@ -7,7 +7,9 @@
     "cleanup": "rm -rf module",
     "build": "babel -D module/src -d module/lib || cp -r module/src/* module/lib",
     "instrument": "sh ./bin/instrument.sh ./module/lib ./module/instrumented",
-    "test": "mocha test"
+    "test": "mocha test",
+    "preinstall": "rm -rf jalangi2/",
+    "postinstall": "git clone https://github.com/Samsung/jalangi2.git && npm install --prefix jalangi2/ && chmod +x bin/*.sh"
   },
   "repository": {
     "type": "git",

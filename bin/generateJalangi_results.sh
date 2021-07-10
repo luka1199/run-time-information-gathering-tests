@@ -2,6 +2,7 @@
 
 SCRIPT_PATH="$( cd "$(dirname "$0")" ; pwd -P )"
 ROOT_PATH=$SCRIPT_PATH/..
+RESULTS_FOLDER="$(pwd)/$1"
 
 JALANGI_PATH="$ROOT_PATH/jalangi2"
 
@@ -17,7 +18,7 @@ TARGET="$ROOT_PATH/tmp"
 
 node $JALANGI_PATH/src/js/commands/instrument.js --inlineIID --inlineSource \
 	-i --inlineJalangi \
-    --initParam jsonOutputPath:$ROOT_PATH/module/output/output.json \
+    --initParam jsonOutputPath:/tmp/output.json \
     --analysis $ROOT_PATH/analysis/utils/initialize.js \
     --analysis $ROOT_PATH/analysis/utils/sMemory/sMemory.js \
     --analysis $ROOT_PATH/analysis/utils/functions.js \
@@ -75,9 +76,10 @@ node $JALANGI_PATH/src/js/commands/instrument.js --inlineIID --inlineSource \
 	$TARGET
 
 
-mkdir -p $ROOT_PATH/jalangiExtracted
+rm -rf $RESULTS_FOLDER/jalangiExtracted/*
+mkdir -p $RESULTS_FOLDER/jalangiExtracted
 
-cat $ROOT_PATH/output_browser/tmp/tmp.html | node $ROOT_PATH/tools/extractJavascriptContent.js > $ROOT_PATH/jalangiExtracted/jalangi.js
+cat $ROOT_PATH/output_browser/tmp/tmp.html | node $ROOT_PATH/tools/extractJavascriptContent.js > $RESULTS_FOLDER/jalangiExtracted/jalangi.js
 # echo "module.exports = J$" >> $ROOT_PATH/jalangiExtracted/jalangi.js
 
 rm -R $ROOT_PATH/tmp
@@ -97,9 +99,7 @@ node $JALANGI_PATH/src/js/commands/instrument.js --inlineIID --inlineSource \
 	--outputDir output_browser \
 	$TARGET
 
-mkdir -p $ROOT_PATH/jalangiExtracted
-
-cat $ROOT_PATH/output_browser/tmp/tmp.html | node $ROOT_PATH/tools/extractJavascriptContent.js > $ROOT_PATH/jalangiExtracted/jalangiPlain.js
+cat $ROOT_PATH/output_browser/tmp/tmp.html | node $ROOT_PATH/tools/extractJavascriptContent.js > $RESULTS_FOLDER/jalangiExtracted/jalangiPlain.js
 # echo "module.exports = J$" >> $ROOT_PATH/jalangiExtracted/jalangiPlain.js
 
 rm -R $ROOT_PATH/tmp
