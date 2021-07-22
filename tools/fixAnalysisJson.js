@@ -1,4 +1,5 @@
 const fs = require('fs')
+const path = require('path')
 
 if (!process.argv[2]) {
     console.log("No module name specified.")
@@ -20,4 +21,9 @@ var analysis = fs.readFileSync(analysisPath).toString()
 var regex = /\"requiredModule\": \"\..*\"/i
 var newAnalysis = analysis.replace(regex, `\"requiredModule\": \"${moduleName}\"`)
 
-fs.writeFileSync(analysisPath, newAnalysis)
+var fileName = path.basename(analysisPath)
+var newFileName = path.parse(fileName).name + "_fixed" + path.parse(fileName).ext
+var newPath = path.join(path.dirname(analysisPath), newFileName)
+console.log('>> Saving fixed analysis to ' + newPath);
+
+fs.writeFileSync(newPath, newAnalysis)
