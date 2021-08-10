@@ -3,10 +3,10 @@
 SCRIPT_PATH="$( cd "$(dirname "$0")" ; pwd -P )"
 ROOT_PATH="$( cd "$(dirname "$0")" ; pwd -P )/.."
 MODULE_NAME=$1
-# MODULE_URL=$(node $ROOT_PATH/tools/transformRepositoryUrl.js $(npm view $MODULE_NAME repository.url))
-MODULE_URL=$2
+MODULE_URL=$(node $ROOT_PATH/tools/transformRepositoryUrl.js $(npm view $MODULE_NAME repository.url))
+# MODULE_URL=$2
 DEFAULT_OUTPUT_PATH=$ROOT_PATH/module/output/output.json
-OUTPUT_PATH="${3:-$DEFAULT_OUTPUT_PATH}"
+OUTPUT_PATH="${2:-$DEFAULT_OUTPUT_PATH}"
 CURRENT_DIRECTORY=$(pwd)
 
 cd $ROOT_PATH
@@ -20,8 +20,6 @@ mkdir -p $SCRIPT_PATH/../module/output/
 echo ""
 echo ">> Cloning module..."
 git clone $MODULE_URL module/src
-
-jsFiles=$(find $ROOT_PATH/module/src/ -name '*.js')
 
 echo ""
 echo ">> Compiling module with Babel..."
@@ -39,37 +37,42 @@ cd $ROOT_PATH
 
 echo ""
 echo ">> Injecting Jalangi"
-cp -r "$ROOT_PATH/jalangiExtracted" "$ROOT_PATH/module/instrumented/node_modules"
-for jsFile in $jsFiles
+mkdir "$ROOT_PATH/module/instrumented/node_modules/jalangiExtracted"
+cp "$ROOT_PATH/jalangiExtracted/jalangi.js" "$ROOT_PATH/module/instrumented/node_modules/jalangiExtracted/jalangi.js"
+jsFiles=$(find ./module/instrumented/ -name '*_orig_.js')
+for jsFile in $jsFiles;
 do
-    instrumentedJsFile="${jsFile/"$ROOT_PATH/module/src/"/"$ROOT_PATH/module/instrumented/"}"
+    instrumentedJsFile="${jsFile/"_orig_"/""}"
     requirePath="jalangiExtracted/jalangi"
-    sed -i "1s@^@require('$requirePath')\n@" $instrumentedJsFile
+    if [[ $(head -n 1 "$instrumentedJsFile") != "require('$requirePath')" ]]; then
+        sed -i "1s@^@require('$requirePath')\n@" $instrumentedJsFile
+        echo "$instrumentedJsFile"
+    fi
 done
 
-# echo ""
-# echo ">> Generating test script..."
-# node tools/testScript.js $ROOT_PATH/module/instrumented/package.json
+echo ""
+echo ">> Generating test script..."
+node $ROOT_PATH/tools/cleanupTestScript.js module/instrumented/package.json
 
 echo ""
 echo ">> Running tests..."
 cd $ROOT_PATH/module/instrumented
-npm run test
+npm run __test__
+cd $ROOT_PATH
+
+echo ""
+echo ">> Preparing analysis file..."
+node $ROOT_PATH/tools/fixAnalysisJson.js $MODULE_NAME module/output/output.json
+echo "done!"
 
 if [ $OUTPUT_PATH != $DEFAULT_OUTPUT_PATH ]; then
     echo ""
     echo ">> Copying analysis to $OUTPUT_PATH"
     mkdir -p $(dirname $OUTPUT_PATH)
-    cp $ROOT_PATH/module/output/output.json $(dirname $OUTPUT_PATH)
+    cp $ROOT_PATH/module/output/output_fixed.json $(dirname $OUTPUT_PATH)/output.json
 fi
 if [ $(dirname $OUTPUT_PATH)/output.json != $OUTPUT_PATH ]; then
     mv $(dirname $OUTPUT_PATH)/output.json $OUTPUT_PATH
 fi
-cd $ROOT_PATH
 
-echo ""
-echo ">> Preparing analysis file..."
-node $ROOT_PATH/tools/prepareAnalysisJson.js $MODULE_NAME $OUTPUT_PATH
-echo "done!"
-
-cd $CURRENT_DIRECTORY
+# cd $CURRENT_DIRECTORY

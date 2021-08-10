@@ -18,7 +18,7 @@ if (!fs.existsSync(analysisPath)) {
     process.exit()
 }
 var analysis = fs.readFileSync(analysisPath).toString()
-var regex = /\"requiredModule\": \"\..*\"/i
+var regex = /\"requiredModule\": \"\..*\"/g
 var newAnalysis = analysis.replace(regex, `\"requiredModule\": \"${moduleName}\"`)
 
 var fileName = path.basename(analysisPath)
