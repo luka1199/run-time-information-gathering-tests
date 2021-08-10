@@ -39,7 +39,7 @@ echo ""
 echo ">> Injecting Jalangi"
 mkdir "$ROOT_PATH/module/instrumented/node_modules/jalangiExtracted"
 cp "$ROOT_PATH/jalangiExtracted/jalangi.js" "$ROOT_PATH/module/instrumented/node_modules/jalangiExtracted/jalangi.js"
-jsFiles=$(find ./module/instrumented/ -name '*_orig_.js')
+jsFiles=$(find $ROOT_PATH/module/instrumented/ -name '*_orig_.js')
 for jsFile in $jsFiles;
 do
     instrumentedJsFile="${jsFile/"_orig_"/""}"
